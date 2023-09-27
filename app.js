@@ -1,6 +1,9 @@
 const express = require('express');
-const app = express();
-app.use(express.json());
+// const app = express();
+
+//declare router so that you can export your routes to server.js module
+const router = express.Router()
+// app.use(express.json());
 
 const studentInfo = [
   { id: 1, name: 'Bademus James', age: '23', grade: 'B', contact: 'Adekunle Ajasin' },
@@ -9,9 +12,10 @@ const studentInfo = [
   { id: 4, name: 'Maset Such', age: '20', grade: 'C', contact: '34, dexter road, close to' }
 ];
 
-console.log(studentInfo)
+// console.log(studentInfo)
 
-app.get('/student/:id', (req, res) => {
+//make the api routes consistent
+router.get('/student/:id', (req, res) => {
   let student = studentInfo.find(s => s.id === parseInt(req.params.id));
 
   if (student) {
@@ -21,11 +25,11 @@ app.get('/student/:id', (req, res) => {
   }
 });
 
-app.get('/student/', (req, res) => {
+router.get('/student/', (req, res) => {
   res.send(studentInfo);
 });
 
-app.post('/api/student', (req, res) => {
+router.post('/api/student', (req, res) => {
   let student = {
     id: studentInfo.length + 1,
     name: req.body.name,
@@ -37,7 +41,7 @@ app.post('/api/student', (req, res) => {
   res.status(201).send(student);
 });
 
-app.put('/api/student/:id', (req, res) => {
+router.put('/api/student/:id', (req, res) => {
   let student = studentInfo.find(s => s.id === parseInt(req.params.id));
 
   if (!student) {
@@ -52,7 +56,7 @@ app.put('/api/student/:id', (req, res) => {
   res.send(student);
 });
 
-app.delete('/api/student/:id', (req, res) => {
+router.delete('/api/student/:id', (req, res) => {
   let student = studentInfo.find(s => s.id === parseInt(req.params.id));
 
   if (!student) {
@@ -65,6 +69,9 @@ app.delete('/api/student/:id', (req, res) => {
   res.send('Student has been deleted');
 });
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+//Server is already declare in server.js
+// router.listen(3000, () => {
+//   console.log('Server is running on port 3000');
+// });
+
+module.exports = router
