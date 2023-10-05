@@ -47,11 +47,10 @@ router.get('/:id',async (req, res)  => {
     res.send(student);
   });
   
-  router.delete('/', async (req, res) => {
-    const {firstname, lastname, age, grade, contact} = req.body
+  router.delete('/:id', async (req, res) => {
+    
     let student = await Students.findByIdAndDelete(req.params.id)
       
-  
     if (!student) {
       return res.status(404).send('Student not found');
     }
